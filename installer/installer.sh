@@ -16,7 +16,9 @@ EOF
     scp -v bootstrap.sh $target_server:$work_dir/
     ssh $target_server bash -xe <<EOF
         cd $work_dir
-        bash ./bootstrap.sh
+        bash ./bootstrap.sh "sources"
+        cd sources
+        ls -la
         # sudo ./install.sh $mode
 EOF
 
