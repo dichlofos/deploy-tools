@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
 
-deploy_service() {
+function print_error() {
+    echo -e "\033[31;1mError:\x1b[0m $@"
+}
 
+function print_warning() {
+    echo -e "\033[33mWarning:\x1b[0m $@"
+}
+
+function print_message() {
+    echo -en "[\033[32m"
+    printf "%10s" "installer"
+    echo -e "\x1b[0m] $@"
+}
+
+function deploy_service() {
     service_name="$1"
     target_server="$2"
     mode="$3"
@@ -19,7 +32,10 @@ EOF
         bash ./bootstrap.sh "sources"
         cd sources
         ls -la
+        echo "see deploy script to enable real deploy"
         # sudo ./install.sh $mode
 EOF
 
 }
+
+
