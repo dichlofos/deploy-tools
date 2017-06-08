@@ -33,9 +33,9 @@ EOF
         cd sources
         ls -la
         echo "see deploy script to enable real deploy"
-        # sudo ./install.sh $mode
+        sudo ./install.sh $mode
 EOF
 
 }
 
-
+unalias grep 2>/dev/null || true
