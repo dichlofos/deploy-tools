@@ -14,10 +14,25 @@ function print_message() {
     echo -e "\x1b[0m] $@"
 }
 
+function fix_hgrc() {
+    hgrc="$1/.hg/hgrc"
+    if ! grep username $hgrc >/dev/null 2>&1 ; then
+        cat >>$hgrc <<EOF
+[ui]
+username = Mikhail Veltishchev <dichlofos-mv@yandex.ru>
+EOF
+    fi
+
+}
+
 function deploy_service() {
     service_name="$1"
     target_server="$2"
     mode="$3"
+    if [ -z "$mode" ] ; then
+        print_error "Empty mode specified"
+        return 1
+    fi
 
     work_dir="$HOME/deploy/$1"
 
