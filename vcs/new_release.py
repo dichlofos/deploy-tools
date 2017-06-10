@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
-import coloredlogs
-import datetime
-import sys
 import os
+import sys
+import logging
+import datetime
+import coloredlogs
 
 
 def detect_version_file():
@@ -45,6 +46,11 @@ def main():
     logging.info("New version is %s", new_version)
     with open(version_file, 'w') as vf:
         vf.write(new_version + '\n')
+
     os.system('{} commit -m "Version updated to {}" {}'.format(vcs, new_version, version_file))
     os.system('{} tag {}-prod-{}'.format(vcs, new_version, datetime.datetime.now().strftime("%Y.%m.%d")))
-    os.system('bash ./push-prod.sh')
+    os.system('bash ./push_prod.sh')
+
+
+if __name__ == "__main__":
+    main()
