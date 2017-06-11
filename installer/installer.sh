@@ -50,7 +50,6 @@ EOF
         bash ./bootstrap.sh "sources"
         cd sources
         ls -la
-        echo "see deploy script to enable real deploy"
         sudo ./install.sh $mode
 EOF
 
