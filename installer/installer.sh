@@ -16,13 +16,16 @@ function print_message() {
 
 function fix_hgrc() {
     hgrc="$1/.hg/hgrc"
-    if ! grep username $hgrc >/dev/null 2>&1 ; then
-        cat >>$hgrc <<EOF
+    repo_name="$2"
+    cat >$hgrc <<EOF
+[paths]
+default = /home/mvel/work/$repo_name
+dmvn = ssh://dmvn.net//srv/hg/$repo_name
+bb = ssh://hg@bitbucket.org/dichlofos/$repo_name
+
 [ui]
 username = Mikhail Veltishchev <dichlofos-mv@yandex.ru>
 EOF
-    fi
-
 }
 
 function deploy_service() {
