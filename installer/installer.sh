@@ -44,7 +44,7 @@ function deploy_service() {
         rm -rf $work_dir
         mkdir -p $work_dir
 EOF
-    scp -v bootstrap.sh $target_server:$work_dir/
+    scp bootstrap.sh $target_server:$work_dir/
     ssh $target_server bash -xe <<EOF
         cd $work_dir
         bash ./bootstrap.sh "sources"
