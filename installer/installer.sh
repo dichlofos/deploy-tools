@@ -55,6 +55,25 @@ EOF
 }
 
 
+function xcms_git_version() {
+    # Calculates unique string that identifies GIT repo (reflecting local changes too)
+
+    if ! [ -d ".git" ] ; then
+        print_error "$(pwd) is not a GIT repo root"
+        return 1
+    fi
+
+    git_branch="$( git symbolic-ref HEAD | sed -e s:refs/heads/:: )"
+    git_version="$( git rev-list --all | wc -l )"
+
+    # to flush CSS cache each time it deploys
+    local_status="$( git status | sha256sum - | cut -c1-4 )"
+    local_diff="$( git diff | sha256sum - | cut -c5-8 )"
+
+    echo $git_branch-r$git_version-$local_status-$local_diff
+}
+
+
 function xcms_version_css() {
     # Creates a copy of CSS files under directory named as site version.
     # Usage: xcms_version_css <destination_dir> <relatiive_path>
@@ -66,8 +85,8 @@ function xcms_version_css() {
         return 0
     fi
 
-    version="$( cat $destination_dir/version | sed -e 's/[^0-9.]//g' )"
-    print_message "    Processing '$css_root_dir'..."
+    version="$( cat $destination_dir/version )"
+    print_message "    Processing '$css_root_dir' to version '$version' ..."
 
     (
         cd "$css_root_dir"
