@@ -92,9 +92,9 @@ function xcms_version_css() {
         cd "$css_root_dir"
         css_dirs="$( find . -type d -name 'css' )"
         for d in $css_dirs ; do (
-            sudo rm -rf "$d/$version"
+            $sudo_mode rm -rf "$d/$version"
             cd "$d"
-            sudo ln -sf . "$version"
+            $sudo_mode ln -sf . "$version"
         ) done
     )
 }
@@ -104,6 +104,8 @@ function deploy_service() {
     service_name="$1"
     target_server="$2"
     mode="$3"
+    sudo_mode="$4"
+
     if [ -z "$mode" ] ; then
         print_error "Empty mode specified"
         return 1
@@ -122,7 +124,7 @@ EOF
         bash ./bootstrap.sh "sources"
         cd sources
         ls -la
-        sudo ./install.sh $mode
+        sudo_mode=$sudo_mode $sudo_mode ./install.sh $mode
 EOF
 
 }
