@@ -111,7 +111,7 @@ function deploy_service() {
         return 1
     fi
 
-    work_dir="$HOME/deploy/$1"
+    work_dir="$HOME/deploy/$service_name"
 
     # prepare repo on remote
     ssh $target_server bash -xe <<EOF
@@ -124,7 +124,7 @@ EOF
         bash ./bootstrap.sh "sources"
         cd sources
         ls -la
-        sudo_mode=$sudo_mode $sudo_mode ./install.sh $mode
+        sudo_mode=$sudo_mode $sudo_mode ./install.sh $mode $service_name
 EOF
 
 }
